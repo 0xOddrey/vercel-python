@@ -4,7 +4,7 @@ import spacy
 import json
 
 
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_md")
 
 def convert_decimal_to_score(decimal):
 	if decimal < 0 or decimal > 1:
@@ -30,8 +30,7 @@ class handler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
-		word = dic["word"]
-		word = word.lower()
+		word = dic.get("word", "").lower()
 		sim = nlp('shark').similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
 		result = json.dumps({"score": score})
