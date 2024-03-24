@@ -5,11 +5,10 @@ import spacy
 nlp = spacy.load("en_core_web_sm")
 
 def convert_decimal_to_score(decimal):
-    if decimal < 0 or decimal > 1:
-        return 1499
-    
-    return 1 + (1 - decimal) * (1500 - 1)
-
+	if decimal < 0 or decimal > 1:
+		return 1499
+	
+	return 1 + (1 - decimal) * (1500 - 1)
 
 class handler(BaseHTTPRequestHandler):
 
@@ -20,10 +19,9 @@ class handler(BaseHTTPRequestHandler):
 		word = word.lower()
 		sim = nlp('shark').similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
-
+		result = {"score": score}
 		self.send_response(200)
 		self.send_header('Content-type','text/plain')
 		self.end_headers()
-		message = str(score)
-		self.wfile.write(message.encode())
+		self.wfile.write(result.encode())
 		return
