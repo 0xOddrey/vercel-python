@@ -33,7 +33,14 @@ class handler(BaseHTTPRequestHandler):
 		word = dic.get("word", "").lower()
 		sim = nlp('museum').similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
-		result = json.dumps({"score": score})
+		keyWords1 = ["art", "history", "display", "painting", "collection"]
+		keyWords2 = ["gallery", "exhibit", "curator", "artifact"]
+		bonus = "0"
+		if word in keyWords1:
+			bonus = '1x'
+		if word in keyWords2:
+			bonus = '2x'
+		result = json.dumps({"score": score, "bonus": bonus})
 		self.send_response(200)
 		self._set_headers()
 		self.end_headers()
