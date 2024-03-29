@@ -31,7 +31,7 @@ class handler(BaseHTTPRequestHandler):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic.get("word", "").lower()
-		sim = nlp('banana').similarity(nlp(word))
+		sim = nlp('museum').similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
 		result = json.dumps({"score": score})
 		self.send_response(200)
