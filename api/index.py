@@ -1,9 +1,8 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
-import json
 import spacy
-nlp = spacy.load("en_core_web_md")
 
+nlp = spacy.load("en_core_web_sm")
 
 def convert_decimal_to_score(decimal):
 	if decimal < 0 or decimal > 1:
@@ -13,35 +12,25 @@ def convert_decimal_to_score(decimal):
 
 class handler(BaseHTTPRequestHandler):
 
-	def _set_headers(self):
-		self.send_header('Content-Type', 'application/json')
-		self.send_header('Access-Control-Allow-Origin', '*')  # Allow all origins
-		self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
-		self.send_header('Access-Control-Allow-Headers', 'Content-Type')
-
-
 	def do_OPTIONS(self):
 		self.send_response(200)
-		self._set_headers()
+		self.send_header('Access-Control-Allow-Credentials', 'true')
+		self.send_header('Access-Control-Allow-Origin', '*')
+		self.send_header('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+		self.send_header('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version')
 		self.end_headers()
 
 
 	def do_GET(self):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
-		word = dic.get("word", "").lower()
-		sim = nlp('swimmmer').similarity(nlp(word))
+		word = dic["word"]
+		word = word.lower()
+		sim = nlp('shark').similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
-		keyWords1 = ["goggles", "olympics", "lanes"]
-		keyWords2 = ["water", "pool"]
-		bonus = "0"
-		if word in keyWords1:
-			bonus = '1x'
-		elif word in keyWords2:
-			bonus = '2x'
-		result = {"score": score, 'full-score': sim, 'word': word, "bonus": bonus}
+		result = {"score": score}
 		self.send_response(200)
-		self._set_headers()
+		self.send_header('Content-type','text/plain')
 		self.end_headers()
 		self.wfile.write(result.encode())
 		return
