@@ -1,9 +1,8 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+import spacy
+nlp = spacy.load("en_core_web_md")
 
 
 def convert_decimal_to_score(decimal):
@@ -31,11 +30,7 @@ class handler(BaseHTTPRequestHandler):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic.get("word", "").lower()
-		corpus = ['swimmer', word]
-		tfidf_vectorizer = TfidfVectorizer(ngram_range=(1,2))
-		tfidf_matrix = tfidf_vectorizer.fit_transform(corpus)
-		similarity_matrix = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
-		sim = similarity_matrix[0, 0]
+		sim = nlp('swimmmer').similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
 		keyWords1 = ["goggles", "olympics", "lanes"]
 		keyWords2 = ["water", "pool"]
