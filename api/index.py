@@ -1,6 +1,8 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import spacy
+import json
+
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -28,7 +30,7 @@ class handler(BaseHTTPRequestHandler):
 		word = word.lower()
 		sim = nlp('shark').similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
-		result = {"score": score}
+		result = json.dumps({"score": score})
 		self.send_response(200)
 		self.send_header('Content-type','text/plain')
 		self.end_headers()
