@@ -38,6 +38,7 @@ class handler(BaseHTTPRequestHandler):
 		trsfm=vectorizer.fit_transform(corpus)
 		result = cosine_similarity(trsfm[0:1], trsfm)
 		sim = result[0][1]
+		print(sim)
 		score = convert_decimal_to_score(sim)
 		keyWords1 = ["goggles", "olympics", "lanes"]
 		keyWords2 = ["water", "pool"]
