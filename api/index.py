@@ -43,8 +43,8 @@ class handler(BaseHTTPRequestHandler):
 		if word in keyWords2:
 			bonus = '2x'
 			score = min(score * 2, 20)
-
-		result = json.dumps({"score": score, 'full-score': sim, 'word': word, "bonus": bonus})
+		print(word, sim, score, bonus)
+		result = json.dumps({"score": score, "bonus": bonus})
 		self.send_response(200)
 		self._set_headers()
 		self.end_headers()
