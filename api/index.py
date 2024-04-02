@@ -14,12 +14,16 @@ def convert_decimal_to_score(decimal):
 
 class handler(BaseHTTPRequestHandler):
 
+	def _set_headers(self):
+		self.send_header('Content-Type', 'application/json')
+		self.send_header('Access-Control-Allow-Origin', '*')  # Allow all origins
+		self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+		self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+
+
 	def do_OPTIONS(self):
 		self.send_response(200)
-		self.send_header('Access-Control-Allow-Credentials', 'true')
-		self.send_header('Access-Control-Allow-Origin', '*')
-		self.send_header('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-		self.send_header('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version')
+		self._set_headers()
 		self.end_headers()
 
 
@@ -39,10 +43,10 @@ class handler(BaseHTTPRequestHandler):
 		if word in keyWords2:
 			bonus = '2x'
 			score = min(score * 2, 20)
-			
+
 		result = json.dumps({"score": score, 'full-score': sim, 'word': word, "bonus": bonus})
 		self.send_response(200)
-		self.send_header('Content-type','text/plain')
+		self._set_headers()
 		self.end_headers()
 		self.wfile.write(result.encode())
 		return
