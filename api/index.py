@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
@@ -30,13 +31,11 @@ class handler(BaseHTTPRequestHandler):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic.get("word", "").lower()
-
 		corpus = ['swimmer', word]
-
-		vectorizer = CountVectorizer()
-		trsfm=vectorizer.fit_transform(corpus)
-		result = cosine_similarity(trsfm[0:1], trsfm)
-		sim = result[0][1]
+		tfidf_vectorizer = TfidfVectorizer()
+		tfidf_matrix = tfidf_vectorizer.fit_transform(corpus)
+		similarity_matrix = cosine_similarity(tfidf_matrix, tfidf_matrix)
+		sim = similarity_matrix[0][1]
 		score = convert_decimal_to_score(sim)
 		keyWords1 = ["goggles", "olympics", "lanes"]
 		keyWords2 = ["water", "pool"]
