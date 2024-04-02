@@ -2,9 +2,8 @@ from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-count_vect = CountVectorizer()
+
 
 def convert_decimal_to_score(decimal):
 	if decimal < 0 or decimal > 1:
@@ -32,9 +31,9 @@ class handler(BaseHTTPRequestHandler):
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic.get("word", "").lower()
 
-		corpus = ['swimmer',word]
+		corpus = ['swimmer', word]
 
-		vectorizer = TfidfVectorizer()
+		vectorizer = CountVectorizer()
 		trsfm=vectorizer.fit_transform(corpus)
 		result = cosine_similarity(trsfm[0:1], trsfm)
 		sim = result[0][1]
@@ -46,7 +45,7 @@ class handler(BaseHTTPRequestHandler):
 			bonus = '1x'
 		if word in keyWords2:
 			bonus = '2x'
-		result = json.dumps({"score": score, 'full-score': sim, "bonus": bonus})
+		result = json.dumps({"score": score, 'full-score': sim, 'word': word, "bonus": bonus})
 		self.send_response(200)
 		self._set_headers()
 		self.end_headers()
