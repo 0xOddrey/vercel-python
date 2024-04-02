@@ -1,8 +1,10 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
-from Levenshtein import jaro
-
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+count_vect = CountVectorizer()
 
 def convert_decimal_to_score(decimal):
 	if decimal < 0 or decimal > 1:
@@ -29,8 +31,13 @@ class handler(BaseHTTPRequestHandler):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic.get("word", "").lower()
-		print(word)
-		sim = jaro("swimmer", word)
+
+		corpus = ['swimmer',word]
+
+		vectorizer = TfidfVectorizer()
+		trsfm=vectorizer.fit_transform(corpus)
+		result = cosine_similarity(trsfm[0:1], trsfm)
+		result = result[0][1]
 		score = convert_decimal_to_score(sim)
 		keyWords1 = ["goggles", "olympics", "lanes"]
 		keyWords2 = ["water", "pool"]

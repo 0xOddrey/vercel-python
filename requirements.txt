@@ -18,6 +18,7 @@ preshed==3.0.9
 pydantic==2.6.4
 pydantic_core==2.16.3
 requests==2.31.0
+sklearn==0.0.post1
 smart-open==6.4.0
 srsly==2.4.8
 thinc==8.2.3
@@ -27,4 +28,3 @@ typing_extensions==4.10.0
 urllib3==2.2.1
 wasabi==1.1.2
 weasel==0.3.4
-Levenshtein
