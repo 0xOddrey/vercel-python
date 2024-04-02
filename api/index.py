@@ -38,7 +38,6 @@ class handler(BaseHTTPRequestHandler):
 		trsfm=vectorizer.fit_transform(corpus)
 		result = cosine_similarity(trsfm[0:1], trsfm)
 		sim = result[0][1]
-		print(sim)
 		score = convert_decimal_to_score(sim)
 		keyWords1 = ["goggles", "olympics", "lanes"]
 		keyWords2 = ["water", "pool"]
@@ -47,7 +46,7 @@ class handler(BaseHTTPRequestHandler):
 			bonus = '1x'
 		if word in keyWords2:
 			bonus = '2x'
-		result = json.dumps({"score": score, "bonus": bonus})
+		result = json.dumps({"score": score, 'full-score': sim, "bonus": bonus})
 		self.send_response(200)
 		self._set_headers()
 		self.end_headers()
