@@ -37,7 +37,7 @@ class handler(BaseHTTPRequestHandler):
 		vectorizer = TfidfVectorizer()
 		trsfm=vectorizer.fit_transform(corpus)
 		result = cosine_similarity(trsfm[0:1], trsfm)
-		result = result[0][1]
+		sim = result[0][1]
 		score = convert_decimal_to_score(sim)
 		keyWords1 = ["goggles", "olympics", "lanes"]
 		keyWords2 = ["water", "pool"]
