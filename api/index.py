@@ -28,9 +28,19 @@ class handler(BaseHTTPRequestHandler):
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic["word"]
 		word = word.lower()
-		sim = nlp('shark').similarity(nlp(word))
+		sim = nlp('swimmer').similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
-		result = json.dumps({"score": score})
+		keyWords1 = ["goggles", "olympics", "lanes"]
+		keyWords2 = ["water", "pool"]
+		bonus = "0"
+		if word in keyWords1:
+			bonus = '1x'
+			score = min(score * 1.2, 50)
+		if word in keyWords2:
+			bonus = '2x'
+			score = min(score * 2, 20)
+			
+		result = json.dumps({"score": score, 'full-score': sim, 'word': word, "bonus": bonus})
 		self.send_response(200)
 		self.send_header('Content-type','text/plain')
 		self.end_headers()
