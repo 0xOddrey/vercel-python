@@ -1,10 +1,8 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
-import spacy
 import json
+from Levenshtein import jaro
 
-
-nlp = spacy.load("en_core_web_md")
 
 def convert_decimal_to_score(decimal):
 	if decimal < 0 or decimal > 1:
@@ -32,10 +30,10 @@ class handler(BaseHTTPRequestHandler):
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic.get("word", "").lower()
 		print(word)
-		sim = nlp('gymnast').similarity(nlp(word))
+		sim = jaro("swimmer", word)
 		score = convert_decimal_to_score(sim)
-		keyWords1 = ["chalk", "olympics", "flip"]
-		keyWords2 = ["routine", "dismount"]
+		keyWords1 = ["goggles", "olympics", "lanes"]
+		keyWords2 = ["water", "pool"]
 		bonus = "0"
 		if word in keyWords1:
 			bonus = '1x'
