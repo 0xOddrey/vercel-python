@@ -31,10 +31,10 @@ class handler(BaseHTTPRequestHandler):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic.get("word", "").lower()
-		sim = nlp('museum').similarity(nlp(word))
+		sim = nlp('swimmer').similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
-		keyWords1 = ["art", "history", "display", "painting", "collection"]
-		keyWords2 = ["gallery", "exhibit", "curator", "artifact"]
+		keyWords1 = ["butterfly", "goggles", "water"]
+		keyWords2 = ["pool", "freestyle"]
 		bonus = "0"
 		if word in keyWords1:
 			bonus = '1x'
