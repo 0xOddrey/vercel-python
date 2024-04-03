@@ -2,7 +2,8 @@ from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import spacy
 import json
-
+from PyDictionary import PyDictionary
+dictionary=PyDictionary()
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -32,10 +33,12 @@ class handler(BaseHTTPRequestHandler):
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic["word"]
 		word = word.lower()
-		sim = nlp('eagle').similarity(nlp(word))
+		definition = dictionary.meaning(word)
+		full_word = "%s - %s" % (word, definition)
+		sim = nlp('eagle - a large, powerful bird of prey with keen vision, broad wings, and a strong beak, often symbolizing strength and freedom.').similarity(nlp(full_word))
 		score = convert_decimal_to_score(sim)
-		keyWords1 = ["nest", "predator"]
-		keyWords2 = ["wings", "vision"]
+		keyWords1 = ["nest", "predator", "feathers"]
+		keyWords2 = ["wings", "vision", "bird"]
 		bonus = "0"
 		if word in keyWords1:
 			bonus = '1x'
