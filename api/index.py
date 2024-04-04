@@ -35,10 +35,10 @@ class handler(BaseHTTPRequestHandler):
 		word = word.lower()
 		definition = dictionary.meaning(word)
 		full_word = "%s - %s" % (word, definition)
-		sim = nlp('eagle - a large, powerful bird of prey with keen vision, broad wings, and a strong beak, often symbolizing strength and freedom.').similarity(nlp(full_word))
+		sim = nlp('sushi - a traditional Japanese dish featuring vinegared rice accompanied by various ingredients, such as seafood, vegetables, and occasionally tropical fruits.').similarity(nlp(full_word))
 		score = convert_decimal_to_score(sim)
-		keyWords1 = ["nest", "predator", "feathers"]
-		keyWords2 = ["wings", "vision", "bird"]
+		keyWords1 = ["seafood", "washabi", "california"]
+		keyWords2 = ["roll", "california"]
 		bonus = "0"
 		if word in keyWords1:
 			bonus = '1x'
