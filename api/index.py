@@ -33,8 +33,17 @@ class handler(BaseHTTPRequestHandler):
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic["word"]
 		word = word.lower()
+		if word == "sushi":
+			result = json.dumps({"score": 1, "bonus": "WINNER"})
+			self.send_response(200)
+			self._set_headers()
+			self.end_headers()
+			self.wfile.write(result.encode())
+			return
+		
 		definition = dictionary.meaning(word)
 		full_word = "%s - %s" % (word, definition)
+
 		sim = nlp('sushi - a traditional Japanese dish featuring vinegared rice accompanied by various ingredients, such as seafood, vegetables, and occasionally tropical fruits.').similarity(nlp(full_word))
 		score = convert_decimal_to_score(sim)
 		keyWords1 = ["seafood", "washabi", "california"]
