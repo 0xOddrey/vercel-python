@@ -46,8 +46,8 @@ class handler(BaseHTTPRequestHandler):
 
 		sim = nlp('sushi - a traditional Japanese dish featuring vinegared rice accompanied by various ingredients, such as seafood, vegetables, and occasionally tropical fruits.').similarity(nlp(full_word))
 		score = convert_decimal_to_score(sim)
-		keyWords1 = ["seafood", "washabi", "california"]
-		keyWords2 = ["roll", "california"]
+		keyWords1 = ["fish", "japan", "rice", "raw"]
+		keyWords2 = ["roll", "california", "washabi", "seafood"]
 		bonus = "0"
 		if word in keyWords1:
 			bonus = '1x'
