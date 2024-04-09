@@ -32,9 +32,9 @@ class handler(BaseHTTPRequestHandler):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic["word"]
-		word = word
+		print(word)
 		answer = dict['answer']
-		answer = answer
+		print(answer)
 		full_word = "%s - %s" % (word, dictionary.meaning(word))
 		full_answer = "%s - %s" % (answer, dictionary.meaning(answer))
 		print(full_word)
