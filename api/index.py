@@ -35,11 +35,8 @@ class handler(BaseHTTPRequestHandler):
 		print(word)
 		answer = dic['answer']
 		print(answer)
-		full_word = "%s - %s" % (word, dictionary.meaning(word))
 		full_answer = "%s - %s" % (answer, dictionary.meaning(answer))
-		print(full_word)
-		print(full_answer)
-		sim = nlp(full_answer).similarity(nlp(full_word))
+		sim = nlp(full_answer).similarity(nlp(word))
 		score = convert_decimal_to_score(sim)
 		result = json.dumps({"score": score})
 		self.send_response(200)
