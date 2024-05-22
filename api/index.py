@@ -7,11 +7,7 @@ dictionary=PyDictionary()
 
 nlp = spacy.load("en_core_web_sm")
 
-def convert_decimal_to_score(decimal):
-	if decimal < 0 or decimal > 1:
-		return 1499
-	
-	return 1 + (1 - decimal) * (1500 - 1)
+
 
 class handler(BaseHTTPRequestHandler):
 
@@ -34,7 +30,7 @@ class handler(BaseHTTPRequestHandler):
 		word = dic["word"]
 		answer = dic['answer']
 		sim = nlp(answer).similarity(nlp(word))
-		score = convert_decimal_to_score(sim)
+		score =  similarity * 100
 		result = json.dumps({"score": score})
 		self.send_response(200)
 		self._set_headers()
