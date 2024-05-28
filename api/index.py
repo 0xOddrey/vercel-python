@@ -5,7 +5,7 @@ import json
 from PyDictionary import PyDictionary
 dictionary=PyDictionary()
 
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_md")
 
 
 
