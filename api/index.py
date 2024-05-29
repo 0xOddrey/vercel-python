@@ -4,7 +4,7 @@ import spacy
 import json
 
 
-nlp = spacy.load("en_core_web_md")
+nlp = spacy.load("en_core_web_md", disable=["tagger", "attribute_ruler", "lemmatizer"])
 
 
 
