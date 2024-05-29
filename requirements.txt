@@ -33,5 +33,5 @@ typing_extensions==4.10.0
 urllib3==2.2.1
 wasabi==1.1.2
 weasel==0.3.4
-genism==4.0.1
-scikit-learn==0.24.2
+genism
+scikit-learn
