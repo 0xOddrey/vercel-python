@@ -24,9 +24,6 @@ class handler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
-		word = dic["word"]
-		answer = dic['answer']
-		print(word)
 		result = json.dumps({"score": 2})
 		self.send_response(200)
 		self._set_headers()
