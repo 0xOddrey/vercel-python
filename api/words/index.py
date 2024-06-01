@@ -26,8 +26,10 @@ class handler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
+	
 		word = dic["word"]
 		answer = dic['answer']
+		print(word)
 		sim = nlp(answer).similarity(nlp(word))
 		score =  sim * 100
 		result = json.dumps({"score": score})
