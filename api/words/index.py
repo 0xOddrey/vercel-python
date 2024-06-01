@@ -8,8 +8,9 @@ import shutil
 import gensim.downloader as api
 import os
 
-os.environ["GENSIM_DATA_DIR"] = "/tmp/gensim-data"
-model = api.load('glove-wiki-gigaword-50')
+model_path = "./glove-wiki-gigaword-50.gz"
+model = gensim.models.KeyedVectors.load_word2vec_format(model_path, binary=False)
+
 
 def cosine_similarity(vec1, vec2):
     dot_product = np.dot(vec1, vec2)
