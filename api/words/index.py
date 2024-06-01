@@ -7,7 +7,9 @@ import gzip
 import shutil
 import gensim.downloader as api
 
+
 model = api.load('glove-wiki-gigaword-50')
+
 
 def cosine_similarity(vec1, vec2):
     dot_product = np.dot(vec1, vec2)
