@@ -2,7 +2,15 @@ from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
 import gensim.downloader as api
+import numpy as np
 model = api.load('glove-twitter-25')
+
+def cosine_similarity(vec1, vec2):
+    dot_product = np.dot(vec1, vec2)
+    norm_vec1 = np.linalg.norm(vec1)
+    norm_vec2 = np.linalg.norm(vec2)
+    return dot_product / (norm_vec1 * norm_vec2)
+
 
 class handler(BaseHTTPRequestHandler):
 
@@ -25,7 +33,9 @@ class handler(BaseHTTPRequestHandler):
 		word = dic["word"]
 		answer = dic['answer']
 		pizza_vector = model["pizza"]
-		result = json.dumps({"score": 5})
+		word_vector = model["sauce"]
+		sim = cosine_similarity(pizza_vector, word_vector)
+		result = json.dumps({"score": sim})
 		self.send_response(200)
 		self._set_headers()
 		self.end_headers()
