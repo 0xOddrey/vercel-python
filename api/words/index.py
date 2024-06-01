@@ -6,7 +6,9 @@ import numpy as np
 import gzip
 import shutil
 import gensim.downloader as api
+import os
 
+os.environ["GENSIM_DATA_DIR"] = "/tmp/gensim-data"
 model = api.load('glove-wiki-gigaword-50')
 
 def cosine_similarity(vec1, vec2):
