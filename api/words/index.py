@@ -1,8 +1,10 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
-import gensim.downloader as api
+import gensim
 import numpy as np
+import gzip
+import shutil
 
 model = api.load('glove-twitter-25')
 
@@ -28,6 +30,16 @@ class handler(BaseHTTPRequestHandler):
 
 
 	def do_GET(self):
+		compressed_model_path = './glove-wiki-gigaword-50.gz'
+		# Path to the decompressed model file
+		decompressed_model_path = './glove-wiki-gigaword-50'
+
+		# Decompress the model filessss
+		with gzip.open(compressed_model_path, 'rb') as f_in:
+			with open(decompressed_model_path, 'wb') as f_out:
+				shutil.copyfileobj(f_in, f_out)
+
+		model = gensim.models.KeyedVectors.load_word2vec_format(decompressed_model_path, binary=False)
 		s = self.path
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic["word"]
