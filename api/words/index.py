@@ -34,6 +34,7 @@ class handler(BaseHTTPRequestHandler):
 		answer = dic['answer']
 		pizza_vector = model["pizza"]
 		word_vector = model["sauce"]
+		print(word)
 		sim = cosine_similarity(pizza_vector, word_vector)
 		result = json.dumps({"score": sim})
 		self.send_response(200)
