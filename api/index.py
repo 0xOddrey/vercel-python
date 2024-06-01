@@ -1,9 +1,7 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
-import spacy
-import json
 
-nlp = spacy.load("en_core_web_md")
+import json
 
 
 class handler(BaseHTTPRequestHandler):
@@ -26,9 +24,7 @@ class handler(BaseHTTPRequestHandler):
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic["word"]
 		answer = dic['answer']
-		sim = nlp(answer).similarity(nlp(word))
-		score = sim * 100
-		result = json.dumps({"score": score})
+		result = json.dumps({"score": 5})
 		self.send_response(200)
 		self._set_headers()
 		self.end_headers()
