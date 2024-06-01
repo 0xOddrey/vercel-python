@@ -1,12 +1,9 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
-import spacy
 import json
-
-
-nlp = spacy.load("en_core_web_md", disable=["tagger", "attribute_ruler", "lemmatizer"])
-
-
+import gensim.downloader as api
+from sklearn.metrics.pairwise import cosine_similarity
+model = api.load("glove-twitter-25")
 
 class handler(BaseHTTPRequestHandler):
 
@@ -28,7 +25,15 @@ class handler(BaseHTTPRequestHandler):
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic["word"]
 		answer = dic['answer']
-		sim = nlp(answer).similarity(nlp(word))
+		answer_vector = model[answer]
+		word_vector = model[word]
+
+		# Reshape vectors for cosine similarity calculation
+		answer_vector = answer_vector.reshape(1, -1)  # Reshape to row vector
+		word_vector = word_vector.reshape(1, -1)    # Reshape to row vector
+
+		# Calculate cosine similarity between "pizza" and the other word
+		sim = cosine_similarity(answer_vector, word_vector)[0][0]
 		score =  sim * 100
 		result = json.dumps({"score": score})
 		self.send_response(200)
