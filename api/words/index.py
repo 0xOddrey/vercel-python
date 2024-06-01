@@ -32,11 +32,8 @@ class handler(BaseHTTPRequestHandler):
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic["word"]
 		answer = dic['answer']
-		pizza_vector = model["pizza"]
-		word_vector = model["sauce"]
 		print(word)
-		sim = cosine_similarity(pizza_vector, word_vector)
-		result = json.dumps({"score": sim})
+		result = json.dumps({"score": 2})
 		self.send_response(200)
 		self._set_headers()
 		self.end_headers()
