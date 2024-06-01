@@ -1,7 +1,8 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
-
+import gensim.downloader as api
+model = api.load("glove-twitter-25")
 
 class handler(BaseHTTPRequestHandler):
 
@@ -19,6 +20,11 @@ class handler(BaseHTTPRequestHandler):
 
 
 	def do_GET(self):
+		s = self.path
+		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
+		word = dic["word"]
+		answer = dic['answer']
+		word_vector = model[word]
 		result = json.dumps({"score": 5})
 		self.send_response(200)
 		self._set_headers()
